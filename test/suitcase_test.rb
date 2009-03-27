@@ -18,13 +18,13 @@ class DependenciesTest < Test::Unit::TestCase
       assert_equal Suitcase::Zipper.items.class, Hash
     end
     should "be able to add files to the suitcase" do
-      Suitcase::Zipper.add("test_helper.rb")
+      Suitcase::Zipper.add("#{::File.dirname(__FILE__)}/test_helper.rb")
       assert_equal Suitcase::Zipper.items.size, 1
     end
     should "be able to add directories to the suitcase" do
-      Suitcase::Zipper.add("test_dir")
+      Suitcase::Zipper.add("#{::File.dirname(__FILE__)}/test_dir")
       assert_equal Suitcase::Zipper.items.size, 2
-      assert_equal Suitcase::Zipper.items["test_dir/box.rb"], ::File.expand_path("test_dir/box.rb")
+      assert Suitcase::Zipper.items["test_dir/box.rb"] =~ /test_dir\/box\.rb/
     end
     # UNCOMMENT THESE TO LIVE-TEST THE USAGE
     # should "be able to add gems to the suitcase" do

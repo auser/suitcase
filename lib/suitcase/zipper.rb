@@ -27,7 +27,7 @@ module Suitcase
 
     def self.add(files_and_directories=[], namespace="")
       files_and_directories.each do |file|
-        f = ::File.expand_path(file)
+        f = ::File.expand_path(file)        
         if ::File.file? f
           items.merge!(("#{namespace}/#{::File.basename(f)}").to_s => f)
         elsif ::File.directory? f
