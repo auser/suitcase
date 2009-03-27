@@ -40,17 +40,17 @@ class DependenciesTest < Test::Unit::TestCase
       Suitcase::Zipper.add("test_dir")
       Suitcase::Zipper.add("test_helper.rb")
       Suitcase::Zipper.zip!(filepath)
-      assert ::File.file?("#{filepath}.tgz")
+      assert ::File.file?("#{filepath}.tar.gz")
     end
     should "zip the packages into a tarball with the extension" do
-      filepath = "#{::File.dirname(__FILE__)}/package.tgz"
+      filepath = "#{::File.dirname(__FILE__)}/package.tar.gz"
       Suitcase::Zipper.add("test_dir")
       Suitcase::Zipper.add("test_helper.rb")
       Suitcase::Zipper.zip!(filepath)
       assert ::File.file?("#{filepath}")
     end
     should "be able to unpack the packages" do
-      filepath = "#{::File.dirname(__FILE__)}/package.tgz"
+      filepath = "#{::File.dirname(__FILE__)}/package.tar.gz"
       Suitcase::Zipper.add("test_dir")
       Suitcase::Zipper.add("test_helper.rb")
       Suitcase::Zipper.zip!(filepath)
@@ -61,7 +61,7 @@ class DependenciesTest < Test::Unit::TestCase
     after do
       ::FileUtils.rm_rf "#{Dir.pwd}/packages"
       ::FileUtils.rm_rf "#{Dir.pwd}/cache"
-      ::FileUtils.rm_rf "#{Dir.pwd}/package.tgz"
+      ::FileUtils.rm_rf "#{Dir.pwd}/package.tar.gz"
     end
   end
 end

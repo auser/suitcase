@@ -9,7 +9,7 @@ module Suitcase
     end
     
     def self.zip!(filepath)
-      filepath = filepath.include?(".tgz") ? filepath : "#{filepath}.tgz"
+      filepath = filepath.include?(".tar.gz") ? filepath : "#{filepath}.tar.gz"
       File.open(filepath,"w") do |tarfile|
         Archive::Tar::Minitar::Writer.open(tarfile) do |tar|
           items.each do |name, path|
