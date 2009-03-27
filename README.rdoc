@@ -1,6 +1,17 @@
-= zipper
+= Suitcase
 
-Description goes here.
+Easy-peasy transfer of bulk files with the Suitcase!
+
+Suitcase takes care of the ugly work for you when dealing with lots of dependencies and and peculiarities with transferring dependencies.
+
+== Simple case:
+
+Suitcase::Zipper.add("file_to_transfer.txt")
+Suitcase::Zipper.add("directory_to_transfer/")
+
+Suitcase::Zipper.zip!("/full/path/to/filename.tar.gz") # => "/full/path/to/filename.tar.gz"
+
+
 
 == Copyright
 
