@@ -26,6 +26,10 @@ class DependenciesTest < Test::Unit::TestCase
       assert_equal Suitcase::Zipper.items.size, 2
       assert Suitcase::Zipper.items["test_dir/box.rb"] =~ /test_dir\/box\.rb/
     end
+    should "be able to add directories into namespaces" do
+      Suitcase::Zipper.add("#{::File.dirname(__FILE__)}/test_dir", "box")
+      assert Suitcase::Zipper.items["box/test_dir/box.rb"] =~ /test_dir\/box\.rb/
+    end
     # UNCOMMENT THESE TO LIVE-TEST THE USAGE
     # should "be able to add gems to the suitcase" do
     #   Suitcase::Zipper.gems("archive-tar-minitar", Dir.pwd)

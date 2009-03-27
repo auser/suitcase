@@ -32,7 +32,7 @@ module Suitcase
           items.merge!(("#{namespace}/#{::File.basename(f)}").to_s => f)
         elsif ::File.directory? f
           Dir["#{f}/*"].each do |f|
-            add(f, ::File.basename(::File.dirname(f)))
+            add(f, "#{namespace.empty? ? "" : "#{namespace}/"}#{::File.basename(::File.dirname(f))}")
           end
         end
       end
