@@ -61,8 +61,10 @@ module Suitcase
       ensure_location_exists package_location
       package_list.each do |package|
         f = "#{package_location}/#{package.split('/').last}"
-        puts "downloading #{package} to #{f}"
-        `curl -L #{package} > #{package_location}/#{package.split('/').last}`
+        unless ::File.file? f
+          puts "downloading #{package} to #{f}"
+          `curl -L #{package} > #{package_location}/#{package.split('/').last}`
+        end
         
         add(f, "packages")
       end
