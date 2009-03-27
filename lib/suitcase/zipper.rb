@@ -57,7 +57,7 @@ module Suitcase
       end
     end
 
-    def self.packages(package_list, package_location)
+    def self.packages(package_list, package_location="#{Dir.pwd}/packages")
       ensure_location_exists package_location
       package_list.each do |package|
         f = "#{package_location}/#{package.split('/').last}"
