@@ -4,10 +4,10 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "zipper"
+    gem.name = "suitcase"
     gem.summary = %Q{TODO}
     gem.email = "arilerner@mac.com"
-    gem.homepage = "http://github.com/auser/zipper"
+    gem.homepage = "http://github.com/auser/suitcase"
     gem.authors = ["Ari Lerner"]
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
@@ -49,7 +49,7 @@ Rake::RDocTask.new do |rdoc|
   end
 
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "zipper #{version}"
+  rdoc.title = "suitcase #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
