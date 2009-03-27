@@ -11,6 +11,19 @@ Suitcase::Zipper.add("directory_to_transfer/")
 
 Suitcase::Zipper.zip!("/full/path/to/filename.tar.gz") # => "/full/path/to/filename.tar.gz"
 
+== Suitcase will download the latest gems for you and add them to the suitcase simply by calling
+
+Suitcase::Zipper.gems "auser-poolparty", "nanite", ...
+
+It first attempts to download it from github and then falls back and tries with rubyforge.
+
+They are added to the suitcase under the gems/ namespace.
+
+== Suitcase will download packages for you off the internet as well given a source, for instance:
+
+Suitcase::Zipper.packages("ftp://ftp.ruby-lang.org/pub/ruby/stable-snapshot.tar.gz", "#{Dir.pwd}/packages")
+
+will download the ruby stable-snapshot.tar.gz and put it into the suitcase
 
 
 == Copyright

@@ -8,6 +8,20 @@ module Suitcase
       @items ||= default_dirs
     end
     
+    def self.zip!(filepath)
+      filepath = filepath.include?(".tgz") ? filepath : "#{filepath}.tgz"
+      File.open(filepath,"w") do |tarfile|
+        Archive::Tar::Minitar::Writer.open(tarfile) do |tar|
+          items.each do |name, path|
+            # Archive::Tar::Minitar.pack(path, tar)
+            data = open(path).read
+            tar.add_file_simple(name, :size=>data.size, :mode=>0644) { |f| f.write(data) }
+          end
+        end
+      end
+      filepath
+    end
+    
     def self.flush!
       @items = nil
     end

@@ -26,17 +26,42 @@ class DependenciesTest < Test::Unit::TestCase
       assert_equal Suitcase::Zipper.items.size, 2
       assert_equal Suitcase::Zipper.items["test_dir/box.rb"], ::File.expand_path("test_dir/box.rb")
     end
-    should "be able to add gems to the suitcase" do
-      Suitcase::Zipper.gems("archive-tar-minitar", Dir.pwd)
-      assert_equal Suitcase::Zipper.items["gems/archive-tar-minitar-0.5.2.gem"], ::File.expand_path("cache/archive-tar-minitar-0.5.2.gem")
+    # UNCOMMENT THESE TO LIVE-TEST THE USAGE
+    # should "be able to add gems to the suitcase" do
+    #   Suitcase::Zipper.gems("archive-tar-minitar", Dir.pwd)
+    #   assert_equal Suitcase::Zipper.items["gems/archive-tar-minitar-0.5.2.gem"], ::File.expand_path("cache/archive-tar-minitar-0.5.2.gem")
+    # end
+    # should "be able to add packages to the suitcase" do
+    #   Suitcase::Zipper.packages("ftp://ftp.ruby-lang.org/pub/ruby/stable-snapshot.tar.gz", "#{Dir.pwd}/packages")
+    #   assert_equal Suitcase::Zipper.items["packages/stable-snapshot.tar.gz"], ::File.expand_path("packages/stable-snapshot.tar.gz")
+    # end
+    should "zip the packages into a tarball without the extension" do
+      filepath = "#{::File.dirname(__FILE__)}/package"
+      Suitcase::Zipper.add("test_dir")
+      Suitcase::Zipper.add("test_helper.rb")
+      Suitcase::Zipper.zip!(filepath)
+      assert ::File.file?("#{filepath}.tgz")
     end
-    should "be able to add packages to the suitcase" do
-      Suitcase::Zipper.packages("ftp://ftp.ruby-lang.org/pub/ruby/stable-snapshot.tar.gz", "#{Dir.pwd}/packages")
-      assert_equal Suitcase::Zipper.items["packages/stable-snapshot.tar.gz"], ::File.expand_path("packages/stable-snapshot.tar.gz")
+    should "zip the packages into a tarball with the extension" do
+      filepath = "#{::File.dirname(__FILE__)}/package.tgz"
+      Suitcase::Zipper.add("test_dir")
+      Suitcase::Zipper.add("test_helper.rb")
+      Suitcase::Zipper.zip!(filepath)
+      assert ::File.file?("#{filepath}")
+    end
+    should "be able to unpack the packages" do
+      filepath = "#{::File.dirname(__FILE__)}/package.tgz"
+      Suitcase::Zipper.add("test_dir")
+      Suitcase::Zipper.add("test_helper.rb")
+      Suitcase::Zipper.zip!(filepath)
+      
+      Suitcase::UnZipper.unzip!(filepath)
+      assert ::File.directory?("#{::File.dirname(filepath)}")
     end
     after do
-      ::FileUtils.rm_rf "#{Dir.pwd}/packages"
-      ::FileUtils.rm_rf "#{Dir.pwd}/cache"
+      # ::FileUtils.rm_rf "#{Dir.pwd}/packages"
+      # ::FileUtils.rm_rf "#{Dir.pwd}/cache"
+      # ::FileUtils.rm_rf "#{Dir.pwd}/package.tgz"
     end
   end
 end

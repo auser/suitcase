@@ -5,7 +5,8 @@ require "context"
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
-require 'suitcase'
+require 'suitcase/zipper'
+require 'suitcase/unzipper'
 
 class Test::Unit::TestCase
 end
