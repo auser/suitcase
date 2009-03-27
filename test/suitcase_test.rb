@@ -55,13 +55,13 @@ class DependenciesTest < Test::Unit::TestCase
       Suitcase::Zipper.add("test_helper.rb")
       Suitcase::Zipper.zip!(filepath)
       
-      Suitcase::UnZipper.unzip!(filepath)
+      Suitcase::UnZipper.unzip!(filepath, "#{Dir.pwd}")
       assert ::File.directory?("#{::File.dirname(filepath)}")
     end
     after do
-      # ::FileUtils.rm_rf "#{Dir.pwd}/packages"
-      # ::FileUtils.rm_rf "#{Dir.pwd}/cache"
-      # ::FileUtils.rm_rf "#{Dir.pwd}/package.tgz"
+      ::FileUtils.rm_rf "#{Dir.pwd}/packages"
+      ::FileUtils.rm_rf "#{Dir.pwd}/cache"
+      ::FileUtils.rm_rf "#{Dir.pwd}/package.tgz"
     end
   end
 end

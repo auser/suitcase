@@ -13,7 +13,6 @@ module Suitcase
       File.open(filepath,"w") do |tarfile|
         Archive::Tar::Minitar::Writer.open(tarfile) do |tar|
           items.each do |name, path|
-            # Archive::Tar::Minitar.pack(path, tar)
             data = open(path).read
             tar.add_file_simple(name, :size=>data.size, :mode=>0644) { |f| f.write(data) }
           end

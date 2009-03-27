@@ -5,14 +5,10 @@ require 'archive/tar/minitar'
 module Suitcase
   class UnZipper
     
+    # TODO: Add a meaningful, portable unzip!
     def self.unzip!(filepath, to=Dir.pwd)
-      p "hi: #{File.open(filepath, 'rb')}"
-      Archive::Tar::Minitar::Reader.new( File.open(filepath, 'rb').read ) do |is|
-        p "hi"
-        is.each_entry do |entry|          
-          p entry
-        end
-      end
+      # tgz = Zlib::GzipReader.new(File.open(filepath, 'rb'))      
+      # Archive::Tar::Minitar.unpack( tgz, to )
     end
     
   end
