@@ -62,6 +62,18 @@ class DependenciesTest < Test::Unit::TestCase
       Suitcase::UnZipper.unzip!(filepath, "#{Dir.pwd}")
       assert ::File.directory?("#{::File.dirname(filepath)}")
     end
+    should "have a method called build_dir!" do
+      assert Suitcase::Zipper.respond_to?(:build_dir!)
+    end
+    should "call build_dir" do
+      Suitcase::Zipper.add("test_dir")
+      Suitcase::Zipper.add("test_helper.rb")
+      
+      Suitcase::Zipper.build_dir!("/tmp/poolparty/deps")
+      
+      assert ::File.directory?("/tmp/poolparty/deps")
+      ::FileUtils.rm_rf "/tmp/poolparty/deps"
+    end
     after do
       ::FileUtils.rm_rf "#{Dir.pwd}/packages"
       ::FileUtils.rm_rf "#{Dir.pwd}/cache"

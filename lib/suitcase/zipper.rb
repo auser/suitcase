@@ -21,6 +21,17 @@ module Suitcase
       filepath
     end
     
+    def self.build_dir!(dirpath)
+      ::FileUtils.mkdir_p dirpath unless ::File.directory? dirpath
+      items.each do |name, path|
+        end_path = "#{dirpath}/#{name}"
+        unless name == ::File.basename(name)
+          ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path)
+        end        
+        ::FileUtils.cp path, end_path
+      end
+    end
+    
     def self.flush!
       @items = nil
     end
