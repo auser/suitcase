@@ -69,9 +69,10 @@ class DependenciesTest < Test::Unit::TestCase
       Suitcase::Zipper.add("test_dir")
       Suitcase::Zipper.add("test_helper.rb")
       
-      Suitcase::Zipper.build_dir!("/tmp/poolparty/deps")
+      pth = Suitcase::Zipper.build_dir!("/tmp/poolparty/deps")
       
       assert ::File.directory?("/tmp/poolparty/deps")
+      assert_equal pth, "/tmp/poolparty/deps"
       ::FileUtils.rm_rf "/tmp/poolparty/deps"
     end
     after do

@@ -30,6 +30,7 @@ module Suitcase
         end        
         ::FileUtils.cp path, end_path
       end
+      dirpath
     end
     
     def self.flush!
