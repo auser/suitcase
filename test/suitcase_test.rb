@@ -31,10 +31,15 @@ class DependenciesTest < Test::Unit::TestCase
       assert Suitcase::Zipper.items["box/test_dir/box.rb"] =~ /test_dir\/box\.rb/
     end
     # UNCOMMENT THESE TO LIVE-TEST THE USAGE
-    # should "be able to add gems to the suitcase" do
-    #   Suitcase::Zipper.gems("archive-tar-minitar", Dir.pwd)
-    #   assert_equal Suitcase::Zipper.items["gems/archive-tar-minitar-0.5.2.gem"], ::File.expand_path("cache/archive-tar-minitar-0.5.2.gem")
-    # end
+    should "be able to add gems to the suitcase" do
+      Suitcase::Zipper.gems("rake", Dir.pwd)
+      Suitcase::Zipper.build_dir! "#{Dir.pwd}/cache"
+      assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/gems/rake-0.8.4.gem"))
+    end
+    should "find the gem online if it is not locally installed" do
+      Suitcase::Zipper.gems("aaronp-meow", Dir.pwd)
+      assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/aaronp-meow-1.1.0.gem"))
+    end
     # should "be able to add packages to the suitcase" do
     #   Suitcase::Zipper.packages("ftp://ftp.ruby-lang.org/pub/ruby/stable-snapshot.tar.gz", "#{Dir.pwd}/packages")
     #   assert_equal Suitcase::Zipper.items["packages/stable-snapshot.tar.gz"], ::File.expand_path("packages/stable-snapshot.tar.gz")

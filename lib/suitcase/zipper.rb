@@ -27,7 +27,7 @@ module Suitcase
         end_path = "#{dirpath}/#{name}"
         unless name == ::File.basename(name)
           ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path)
-        end        
+        end
         ::FileUtils.cp path, end_path
       end
       dirpath
@@ -52,12 +52,25 @@ module Suitcase
 
     def self.gems(gem_list, gem_location)
       require 'rubygems/dependency_installer'
+      gem_list = [gem_list] unless gem_list.is_a?(Array)
       ensure_location_exists gem_location
 
       cache_dir = "#{gem_location}/cache"
       ::FileUtils.mkdir_p cache_dir rescue nil unless File.exist? cache_dir
 
-      gem_list.each do |g|
+      locally_installed_gems = Gem::SourceIndex.from_installed_gems.map {|n,s| s.name }
+      
+      locally_installable_gems = gem_list & locally_installed_gems
+      remotely_installable = gem_list - locally_installable_gems
+      
+      # First, add the locally installed gems
+      locally_installable_gems.each do |spec|
+        spec = Gem::SourceIndex.from_installed_gems.find_name(spec).last#.sort_by {|a,b| a.version <=> b.version }.last                
+        f = Dir[File.join(Gem.dir, 'cache', "#{spec.full_name}.gem")].first
+        add(f, "gems")
+      end
+      
+      remotely_installable.each do |g|
         di = Gem::DependencyInstaller.new
         spec, url = di.find_spec_by_name_and_version(g).first
         f = begin
