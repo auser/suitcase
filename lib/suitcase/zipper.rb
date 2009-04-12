@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'archive/tar/minitar'
 
 module Suitcase
   class Zipper
@@ -9,6 +8,7 @@ module Suitcase
     end
     
     def self.zip!(filepath)
+      require 'archive/tar/minitar'
       filepath = filepath.include?(".tar.gz") ? filepath : "#{filepath}.tar.gz"
       File.open(filepath,"w") do |tarfile|
         Archive::Tar::Minitar::Writer.open(tarfile) do |tar|

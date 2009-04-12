@@ -9,6 +9,7 @@ begin
     gem.email = "arilerner@mac.com"
     gem.homepage = "http://github.com/auser/suitcase"
     gem.authors = ["Ari Lerner"]
+    gem.add_dependency('tarruby')
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
