@@ -26,6 +26,19 @@ class DependenciesTest < Test::Unit::TestCase
       assert_equal Suitcase::Zipper.items.size, 2
       assert Suitcase::Zipper.items["test_dir/box.rb"] =~ /test_dir\/box\.rb/
     end
+    should "be able to add_content_as" do
+      Suitcase::Zipper.add_content_as("hello world", "hello.txt", "files")
+      assert_equal Suitcase::Zipper.items.size, 1
+      assert Suitcase::Zipper.items[:string][:name] == "hello.txt"
+      assert Suitcase::Zipper.items[:string][:content] == "hello world"
+      assert Suitcase::Zipper.items[:string][:namespace] == "files"
+    end
+    should "add the content as a file when build_dir!" do
+      Suitcase::Zipper.add_content_as("hello world", "hello.txt", "files")
+      Suitcase::Zipper.build_dir! "#{Dir.pwd}/cache"
+      assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/files/hello.txt"))
+      assert_equal open(::File.expand_path("#{Dir.pwd}/cache/files/hello.txt")).read, "hello world"
+    end
     should "be able to add directories into namespaces" do
       Suitcase::Zipper.add("#{::File.dirname(__FILE__)}/test_dir", "box")
       assert Suitcase::Zipper.items["box/test_dir/box.rb"] =~ /test_dir\/box\.rb/

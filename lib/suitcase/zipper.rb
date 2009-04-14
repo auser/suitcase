@@ -13,8 +13,14 @@ module Suitcase
       File.open(filepath,"w") do |tarfile|
         Archive::Tar::Minitar::Writer.open(tarfile) do |tar|
           items.each do |name, path|
-            data = open(path).read
-            tar.add_file_simple(name, :size=>data.size, :mode=>0644) { |f| f.write(data) }
+            if name == :string              
+              ::File.open("#{dirpath}/#{path[:namespace]}/#{path[:name]}", "w+") do |tf|
+                tf << path[:content]
+              end
+            else
+              data = open(path).read
+              tar.add_file_simple(name, :size=>data.size, :mode=>0644) { |f| f.write(data) }
+            end
           end
         end
       end
@@ -24,11 +30,17 @@ module Suitcase
     def self.build_dir!(dirpath)
       ::FileUtils.mkdir_p dirpath unless ::File.directory? dirpath
       items.each do |name, path|
-        end_path = "#{dirpath}/#{name}"
-        unless name == ::File.basename(name)
-          ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path)
+        if name == :string
+          fpath = "#{dirpath}/#{path[:namespace]}/#{path[:name]}"
+          ensure_location_exists(::File.dirname(fpath))
+          ::File.open(fpath, "w+") do |tf|
+            tf << path[:content]
+          end
+        else
+          end_path = "#{dirpath}/#{name}"
+          ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path) unless name == ::File.basename(name)
+          ::FileUtils.cp path, end_path
         end
-        ::FileUtils.cp path, end_path
       end
       dirpath
     end
@@ -45,7 +57,7 @@ module Suitcase
         elsif ::File.directory? f
           Dir["#{f}/*"].each do |f|
             add(f, "#{namespace.empty? ? "" : "#{namespace}/"}#{::File.basename(::File.dirname(f))}")
-          end
+          end          
         end
       end
     end
@@ -97,6 +109,10 @@ module Suitcase
     
     def self.ensure_location_exists(loc)
       ::FileUtils.mkdir_p loc unless ::File.directory? loc
+    end
+    
+    def self.add_content_as(content="", filename="", namespace="files")
+      items.merge!({:string => {:name => ::File.basename(filename), :content => content, :namespace => namespace}})
     end
 
   end
