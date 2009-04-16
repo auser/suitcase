@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{suitcase}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ari Lerner"]
-  s.date = %q{2009-04-14}
+  s.date = %q{2009-04-16}
   s.email = %q{arilerner@mac.com}
   s.extra_rdoc_files = ["README.rdoc", "LICENSE"]
   s.files = ["README.rdoc", "VERSION.yml", "lib/suitcase", "lib/suitcase/unzipper.rb", "lib/suitcase/zipper.rb", "lib/suitcase.rb", "test/suitcase_test.rb", "test/test_dir", "test/test_dir/box.rb", "test/test_dir/test.txt", "test/test_helper.rb", "LICENSE"]

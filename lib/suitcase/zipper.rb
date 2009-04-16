@@ -30,15 +30,15 @@ module Suitcase
     def self.build_dir!(dirpath)
       ::FileUtils.mkdir_p dirpath unless ::File.directory? dirpath
       items.each do |name, path|
-        if name == :string
+        if name.to_s =~ /string/
           fpath = "#{dirpath}/#{path[:namespace]}/#{path[:name]}"
           ensure_location_exists(::File.dirname(fpath))
           ::File.open(fpath, "w+") do |tf|
             tf << path[:content]
           end
-        else
+        else          
           end_path = "#{dirpath}/#{name}"
-          ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path) unless name == ::File.basename(name)
+          ::FileUtils.mkdir_p ::File.dirname(end_path) unless ::File.directory? ::File.dirname(end_path) unless name == ::File.basename(name)          
           ::FileUtils.cp path, end_path
         end
       end
@@ -112,7 +112,7 @@ module Suitcase
     end
     
     def self.add_content_as(content="", filename="", namespace="files")
-      items.merge!({:string => {:name => ::File.basename(filename), :content => content, :namespace => namespace}})
+      items.merge!({"string_#{filename}_#{namespace}".to_sym => {:name => ::File.basename(filename), :content => content, :namespace => namespace}})
     end
 
   end
