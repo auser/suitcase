@@ -78,7 +78,7 @@ module Suitcase
       # First, add the locally installed gems
       locally_installable_gems.each do |spec|
         spec = Gem::SourceIndex.from_installed_gems.find_name(spec).last#.sort_by {|a,b| a.version <=> b.version }.last                
-        f = Dir[File.join(Gem.dir, 'cache', "#{spec.full_name}.gem")].first
+        f = Gem.path.select {|gemdir| f = File.join(gemdir, 'cache', "#{spec.full_name}.gem"); f if File.exists?(f) }
         add(f, "gems")
       end
       
