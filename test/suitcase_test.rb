@@ -23,15 +23,16 @@ class DependenciesTest < Test::Unit::TestCase
     end
     should "be able to add directories to the suitcase" do
       Suitcase::Zipper.add("#{::File.dirname(__FILE__)}/test_dir")
-      assert_equal Suitcase::Zipper.items.size, 2
+      assert_equal Suitcase::Zipper.items.size, 3
       assert Suitcase::Zipper.items["test_dir/box.rb"] =~ /test_dir\/box\.rb/
     end
     should "be able to add_content_as" do
       Suitcase::Zipper.add_content_as("hello world", "hello.txt", "files")
       assert_equal Suitcase::Zipper.items.size, 1
-      assert Suitcase::Zipper.items[:string][:name] == "hello.txt"
-      assert Suitcase::Zipper.items[:string][:content] == "hello world"
-      assert Suitcase::Zipper.items[:string][:namespace] == "files"
+      fitem = Suitcase::Zipper.items[:"string_hello.txt_files"]
+      assert fitem[:name] == "hello.txt"
+      assert fitem[:content] == "hello world"
+      assert fitem[:namespace] == "files"
     end
     should "add the content as a file when build_dir!" do
       Suitcase::Zipper.add_content_as("hello world", "hello.txt", "files")
@@ -45,12 +46,17 @@ class DependenciesTest < Test::Unit::TestCase
     end
     # UNCOMMENT THESE TO LIVE-TEST THE USAGE
     should "be able to add gems to the suitcase" do
-      Suitcase::Zipper.gems("rake", Dir.pwd)
+      Suitcase::Zipper.gems("rake", :temp_path => Dir.pwd)
       Suitcase::Zipper.build_dir! "#{Dir.pwd}/cache"
       assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/gems/rake-0.8.4.gem"))
     end
+    should "be able to add gems to the suitcase with a direct search path" do
+      Suitcase::Zipper.gems("carrot", :temp_path => Dir.pwd, :search_paths => ["#{File.dirname(__FILE__)}/test_dir/gems"])
+      Suitcase::Zipper.build_dir! "#{Dir.pwd}/cache"
+      assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/gems/famoseagle-carrot-0.6.0.gem"))
+    end
     should "find the gem online if it is not locally installed" do
-      Suitcase::Zipper.gems("aaronp-meow", Dir.pwd)
+      Suitcase::Zipper.gems("aaronp-meow", :temp_path => Dir.pwd)
       assert ::File.file?(::File.expand_path("#{Dir.pwd}/cache/aaronp-meow-1.1.0.gem"))
     end
     # should "be able to add packages to the suitcase" do
