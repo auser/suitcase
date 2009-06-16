@@ -29,7 +29,7 @@ class DependenciesTest < Test::Unit::TestCase
     should "be able to add_content_as" do
       Suitcase::Zipper.add_content_as("hello world", "hello.txt", "files")
       assert_equal Suitcase::Zipper.items.size, 1
-      fitem = Suitcase::Zipper.items[:"string_hello.txt_files"]
+      fitem = Suitcase::Zipper.items[:"__p__stringhello.txt_files"]
       assert fitem[:name] == "hello.txt"
       assert fitem[:content] == "hello world"
       assert fitem[:namespace] == "files"

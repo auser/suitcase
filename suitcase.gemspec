@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.date = %q{2009-06-15}
   s.email = %q{arilerner@mac.com}
   s.extra_rdoc_files = ["README.rdoc", "LICENSE"]
-  s.files = ["README.rdoc", "VERSION.yml", "lib/suitcase", "lib/suitcase/unzipper.rb", "lib/suitcase/zipper.rb", "lib/suitcase.rb", "test/package.tar.gz", "test/suitcase_test.rb", "test/test_dir", "test/test_dir/box.rb", "test/test_dir/gems", "test/test_dir/gems/famoseagle-carrot-0.6.0.gem", "test/test_dir/test.txt", "test/test_helper.rb", "LICENSE"]
+  s.files = ["README.rdoc", "VERSION.yml", "lib/suitcase", "lib/suitcase/unzipper.rb", "lib/suitcase/zipper.rb", "lib/suitcase.rb", "test/suitcase_test.rb", "test/test_dir", "test/test_dir/box.rb", "test/test_dir/gems", "test/test_dir/gems/famoseagle-carrot-0.6.0.gem", "test/test_dir/test.txt", "test/test_helper.rb", "LICENSE"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/auser/suitcase}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
